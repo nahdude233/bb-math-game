@@ -68,33 +68,105 @@
     <h1>💖 Birthday Math Challenge 💖</h1>
     <p style="text-align: center;">Solve each set of cute math puzzles to reveal your surprise gifts! You're amazing and brilliant 💕</p>
 
-    <!-- All sets are already included in your saved version -->
+    <button onclick="startGame()" id="startBtn">Start the Challenge</button>
 
-    <script>
-      function startGame() {
-        document.querySelector("#set1").style.display = "block";
-        event.target.style.display = "none";
-      }
+    <!-- Question sets inserted here -->
+    <div id="questionContainer"></div>
 
-      function checkSet(setNum, answers) {
-        let correct = true;
-        for (let i = 0; i < 4; i++) {
-          const qName = `q${(setNum - 1) * 4 + i + 1}`;
-          const selected = document.querySelector(`input[name='${qName}']:checked`);
-          if (!selected || selected.value !== answers[i]) {
-            correct = false;
-            if (selected) selected.parentElement.style.color = 'red';
-          } else {
-            selected.parentElement.style.color = 'green';
-          }
-        }
-        if (correct) {
-          document.querySelector(`#gift${setNum}`).style.display = 'block';
-          const nextSet = document.querySelector(`#set${setNum + 1}`);
-          if (nextSet) nextSet.style.display = 'block';
-        }
-      }
-    </script>
   </div>
+
+  <script>
+    const questionSets = [
+      {
+        title: 'Set 1 – Warm-up',
+        answers: ['18', '54321', '7.5', '75'],
+        gift: '🎁 You’ve unlocked Gift #1: The Tooth Necklace!',
+        questions: [
+          ['√81 + 3² =', ['18', '21', '27', '30']],
+          ['Rearranged 53142 descending =', ['54321', '52431', '54123', '53421']],
+          ['Angle at 3:15?', ['7.5', '0', '15', '30']],
+          ['New area after increasing length 25%:', ['75', '60', '90', '80']]
+        ]
+      },
+      {
+        title: 'Set 2 – Intermediate',
+        answers: ['-0.5', '80', '60', '12'],
+        gift: '🎁 You’ve unlocked Gift #2: A Shirt!',
+        questions: [
+          ['Solve 2x² - 3x - 2 = 0 (smaller root)', ['-0.5', '1.5', '2', '0.5']],
+          ['60 km in 45 minutes = ?', ['80', '60', '90', '75']],
+          ['Sum of all primes between 10 and 20', ['60', '61', '58', '59']],
+          ['Two numbers: diff=8, prod=240 → smaller?', ['12', '10', '16', '8']]
+        ]
+      },
+      {
+        title: 'Set 3 – Advanced',
+        answers: ['21', '5', '60', '13'],
+        gift: '🎁 You’ve unlocked Gift #3: Another Shirt!',
+        questions: [
+          ['8th term of Fibonacci (starting 1,1)', ['21', '13', '34', '55']],
+          ['Cube edge if surface area is 150 cm²?', ['5', '6', '4.5', '3']],
+          ['Avg speed for trip at 60, 90, 45 km/h?', ['60', '65', '75', '70']],
+          ['Smallest number: rem 3 ÷5 & rem 1 ÷4?', ['13', '17', '21', '9']]
+        ]
+      },
+      {
+        title: 'Set 4 – Hard',
+        answers: ['252', '10/32', '252', 'weigh 4-4-4'],
+        gift: '🎁 You’ve unlocked the Final Gift: The Earrings! 💎',
+        questions: [
+          ['Smallest multiple of 12 & 18 also divisible by 7?', ['252', '126', '84', '168']],
+          ['Probability of 3 heads in 5 flips?', ['10/32', '5/16', '3/10', '1/6']],
+          ['3-digit AP digits, divisible by 9?', ['252', '123', '321', '234']],
+          ['Strategy to find odd ball in 3 weighs?', ['weigh 4-4-4', 'weigh 6-6', 'group by weight', 'try each one']]
+        ]
+      }
+    ];
+
+    function startGame() {
+      document.getElementById('startBtn').style.display = 'none';
+      const container = document.getElementById('questionContainer');
+
+      questionSets.forEach((set, i) => {
+        const setDiv = document.createElement('div');
+        setDiv.className = 'question-set';
+        setDiv.id = `set${i+1}`;
+        setDiv.innerHTML = `<h2>${set.title}</h2>`;
+
+        set.questions.forEach((q, j) => {
+          const [questionText, options] = q;
+          setDiv.innerHTML += `<p>${j+1}. ${questionText}</p>`;
+          options.forEach(opt => {
+            setDiv.innerHTML += `<label><input type="radio" name="q${i*4+j+1}" value="${opt}"> ${opt}</label>`;
+          });
+        });
+
+        setDiv.innerHTML += `<button onclick="checkSet(${i+1}, ${JSON.stringify(set.answers)})">Submit Answers</button>`;
+        setDiv.innerHTML += `<div class="gift" id="gift${i+1}">${set.gift}</div>`;
+        container.appendChild(setDiv);
+      });
+
+      document.getElementById('set1').style.display = 'block';
+    }
+
+    function checkSet(setNum, answers) {
+      let correct = true;
+      for (let i = 0; i < 4; i++) {
+        const qName = `q${(setNum - 1) * 4 + i + 1}`;
+        const selected = document.querySelector(`input[name='${qName}']:checked`);
+        if (!selected || selected.value !== answers[i]) {
+          correct = false;
+          if (selected) selected.parentElement.style.color = 'red';
+        } else {
+          selected.parentElement.style.color = 'green';
+        }
+      }
+      if (correct) {
+        document.querySelector(`#gift${setNum}`).style.display = 'block';
+        const nextSet = document.querySelector(`#set${setNum + 1}`);
+        if (nextSet) nextSet.style.display = 'block';
+      }
+    }
+  </script>
 </body>
 </html>
