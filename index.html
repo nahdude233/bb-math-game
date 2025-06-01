@@ -157,13 +157,11 @@
         
     if (!selected) {
       correct = false;
-      console.log('Question ' + (i+1) + ' not answered.');
       alert('Please answer all questions in this set.');
       return;
     } else if (selected.value !== answers[i]) {
       correct = false;
       selected.parentElement.style.color = 'red';
-      console.log('Question ' + (i+1) + ' incorrect.');
     } else {
       selected.parentElement.style.color = 'green';
     }
