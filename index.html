@@ -154,14 +154,30 @@
       for (let i = 0; i < 4; i++) {
         const qName = `q${(setNum - 1) * 4 + i + 1}`;
         const selected = document.querySelector(`input[name='${qName}']:checked`);
-        if (!selected || selected.value !== answers[i]) {
+        
+    if (!selected) {
+      correct = false;
+      console.log('Question ' + (i+1) + ' not answered.');
+      alert('Please answer all questions in this set.');
+      return;
+    } else if (selected.value !== answers[i]) {
+      correct = false;
+      selected.parentElement.style.color = 'red';
+      console.log('Question ' + (i+1) + ' incorrect.');
+    } else {
+      selected.parentElement.style.color = 'green';
+    }
+    
           correct = false;
           if (selected) selected.parentElement.style.color = 'red';
         } else {
           selected.parentElement.style.color = 'green';
         }
       }
-      if (correct) {
+      
+    if (correct) {
+      alert('🎉 All correct! Gift unlocked!');
+    
         document.querySelector(`#gift${setNum}`).style.display = 'block';
         const nextSet = document.querySelector(`#set${setNum + 1}`);
         if (nextSet) nextSet.style.display = 'block';
