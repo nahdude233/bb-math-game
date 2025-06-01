@@ -68,7 +68,7 @@
     <h1>💖 Birthday Math Challenge 💖</h1>
     <p style="text-align: center;">Solve each set of cute math puzzles to reveal your surprise gifts! You're amazing and brilliant 💕</p>
 
-    <button onclick="startGame()" id="startBtn">Start the Challenge</button>
+    <button onclick="startGame(this)" id="startBtn">Start the Challenge</button>
 
     <!-- Question sets inserted here -->
     <div id="questionContainer"></div>
@@ -123,7 +123,7 @@
       }
     ];
 
-    function startGame() {
+    function startGame(btn) {
       document.getElementById('startBtn').style.display = 'none';
       const container = document.getElementById('questionContainer');
 
